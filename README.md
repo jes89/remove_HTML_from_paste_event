@@ -1,1 +1,0 @@
-# remove_HTML_from_paste_event
