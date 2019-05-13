@@ -1,5 +1,6 @@
 <div id="contentsArea" contentEditable="true" onfocus="saveRange(this)" onclick="saveRange(this)" onpaste="saveRange(this); removeHTML(this);"  onkeyup="saveRange(this)"></div
 
+    <script>
 var targetRange = null;
 function saveRange(that) {
     if (that.innerHTML === "내용을 입력해 주세요") {
@@ -51,3 +52,4 @@ function saveRange(that) {
                         targetRange.setStartAfter(text);
                     }
                 }
+    </script>
