@@ -1,55 +1,52 @@
 <div id="contentsArea" contentEditable="true" onfocus="saveRange(this)" onclick="saveRange(this)" onpaste="saveRange(this); removeHTML(this);"  onkeyup="saveRange(this)"></div
 
     <script>
-var targetRange = null;
-function saveRange(that) {
-    if (that.innerHTML === "내용을 입력해 주세요") {
-         that.innerHTML = "";
-    }
+        var targetRange = null;
+        function saveRange(that) {
+            if (that.innerHTML === "내용을 입력해 주세요") {
+                 that.innerHTML = "";
+            }
 
-    if (that.nodeName === "DIV" && that.id === "contentsArea") {
-         var sel = window.getSelection();
-             if(sel.rangeCount > 0){
-                  targetRange = sel.getRangeAt(0);
-             } else {
-                  setTimeout(function () {
-                      saveRange(that);
-                   }, 100)
-             }
-    }
-}
+            if (that.nodeName === "DIV" && that.id === "contentsArea") {
+                 var sel = window.getSelection();
+                     if(sel.rangeCount > 0){
+                          targetRange = sel.getRangeAt(0);
+                     } else {
+                          setTimeout(function () {
+                              saveRange(that);
+                           }, 100)
+                     }
+            }
+        }
 
+        function removeHTML(that) {
 
+            event.stopPropagation();
+            event.preventDefault();
 
+            var clipboardData = event.clipboardData || window.clipboardData;
+            var pastedData = clipboardData.getData('Text');
+            var contentsArea = document.getElementById("contentsArea");
 
-                function removeHTML(that) {
+            if (targetRange == null) {
 
-                    event.stopPropagation();
-                    event.preventDefault();
+                contentsArea.focus();
 
-                    var clipboardData = event.clipboardData || window.clipboardData;
-                    var pastedData = clipboardData.getData('Text');
-                    var contentsArea = document.getElementById("contentsArea");
-
-                    if (targetRange == null) {
-
-                        contentsArea.focus();
-
-                        if (cnt >= maxWaitCnt) {
-                            alert("붙여넣기 오류, 관리자에게 문의하세요.");
-                            return;
-                        }
-
-                        setTimeout(function () {
-                            timmer();
-                            cnt++;
-                        }, 100)
-
-                    } else {
-                        var text = document.createTextNode(pastedData.replace(/(<([^>]+)>)/gi, ""));
-
-                        targetRange.insertNode(text);
-                        targetRange.setStartAfter(text);
-                    }
+                if (cnt >= maxWaitCnt) {
+                    alert("붙여넣기 오류, 관리자에게 문의하세요.");
+                    return;
                 }
+
+                setTimeout(function () {
+                    timmer();
+                    cnt++;
+                }, 100)
+
+            } else {
+                var text = document.createTextNode(pastedData.replace(/(<([^>]+)>)/gi, ""));
+
+                targetRange.insertNode(text);
+                targetRange.setStartAfter(text);
+            }
+        }
     </script>
